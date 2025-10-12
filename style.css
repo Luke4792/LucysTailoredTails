@@ -120,6 +120,22 @@ body {
 .book-btn:hover { background-color: #6b8b7e; }
 .book-btn:active { transform: translateY(1px); }
 
+/* Clean up hamburger button appearance */
+.menu-toggle {
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  cursor: pointer;
+  display: none; /* shown only on mobile */
+  padding: 0;
+}
+.menu-toggle:focus,
+.menu-toggle:active {
+  outline: none;
+  box-shadow: none;
+}
+
 /* ===== Mobile Menu Toggle ===== */
 /* Hidden by default */
 .nav-menu {
@@ -129,14 +145,10 @@ body {
   position: absolute;
   top: 100%;
   left: 0;
-  width: 100%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-
-  /* animation control */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-10px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.25s ease; /* fade only */
 }
 
 /* Visible when toggled open */
@@ -312,11 +324,13 @@ section .content {
 
 .gallery-grid img {
   width: 100%;
-  height: 250px;
-  object-fit: cover;
+  height: auto;                /* let image define its own height */
+  object-fit: contain;         /* scale to fit inside container */
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff9e6;   /* soft background for empty space */
+  padding: 4px;                /* optional: tiny padding for aesthetic balance */
 }
 
 .gallery-grid img:hover {
@@ -637,25 +651,86 @@ section .content {
 
 /* ===== Responsive ===== */
 @media (max-width: 900px) {
-  .menu-toggle { display: block; }
+  /* Show hamburger icon */
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    box-shadow: none;
+  }
 
+  /* Match the look from commit 207aacdd (compact top-right panel) */
+  /* Convert nav to fade-in panel */
+  .nav-menu {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    left: auto;
+    background-color: var(--bg-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .nav-menu.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* stack links vertically */
   .nav-links {
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
+    width: 100%;
   }
 
-  .book-btn { width: 100%; text-align: center; }
+  .nav-links a {
+    width: 100%;
+    text-align: left;
+  }
 
+  /* Book Now button */
+  .book-btn {
+    display: inline-block;
+    width: auto;
+    text-align: center;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;  /* smaller gap below */
+  }
+
+  /* Social icons — compact, inline, left-aligned */
+  .social {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.4rem;            /* tighter gap between icons */
+    justify-content: flex-start;
+    margin-top: 0;          /* remove any extra vertical space */
+    padding: 0;             /* ensure no internal spacing */
+  }
+
+  /* Fix icon spacing inside the mobile dropdown */
+  .social a {
+    display: inline-block;  /* remove flexbox sizing behavior */
+    width: auto;            /* shrink to icon width */
+    padding: 0;             /* no invisible padding */
+    margin: 0;              /* no inherited margin */
+  }
+
+  /* Tweak navbar padding and hero sizes for mobile */
   .navbar-container { padding: 0.8rem 1rem; }
-
   .home-logo { max-width: 260px; }
   .home-section h1 { font-size: 2rem; }
   .home-section p { font-size: 1rem; }
-}
-
-@media (min-width: 1201px) {
-  .home-section h1 { font-size: 2.8rem; }
-  .home-section p  { font-size: 1.15rem; }
-  .home-logo       { max-width: 360px; }
 }

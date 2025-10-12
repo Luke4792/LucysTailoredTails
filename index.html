@@ -88,15 +88,15 @@
         <p>Here’s a glimpse of some of my happy clients and recent grooms!</p>
 
         <div class="gallery-grid">
-        <img src="https://picsum.photos/400/400?random=1" alt="Dog grooming example 1">
-        <img src="https://picsum.photos/400/400?random=2" alt="Dog grooming example 2">
-        <img src="https://picsum.photos/400/400?random=3" alt="Dog grooming example 3">
-        <img src="https://picsum.photos/400/400?random=4" alt="Dog grooming example 4">
-        <img src="https://picsum.photos/400/400?random=5" alt="Dog grooming example 5">
-        <img src="https://picsum.photos/400/400?random=6" alt="Dog grooming example 6">
-        <img src="https://picsum.photos/400/400?random=7" alt="Dog grooming example 7">
-        <img src="https://picsum.photos/400/400?random=8" alt="Dog grooming example 8">
-        <img src="https://picsum.photos/400/400?random=9" alt="Dog grooming example 9">
+        <img src="gallery images\corgi.jpg" alt="gallery images\logo-coming-soon.png">
+        <img src="gallery images\corgi-wet.jpg" alt="gallery images\logo-coming-soon.png">
+        <img src="gallery images\jack-russell.jpg" alt="gallery images\logo-coming-soon.png">
+        <img src="gallery images\teeth.jpg" alt="gallery images\logo-coming-soon.png">
+        <img src="gallery images\logo-coming-soon.png" alt="gallery images\logo-coming-soon.png">
+        <img src="gallery images\logo-coming-soon.png" alt="gallery images\logo-coming-soon.png">
+        <img src="gallery images\logo-coming-soon.png" alt="gallery images\logo-coming-soon.png">
+        <img src="gallery images\logo-coming-soon.png" alt="gallery images\logo-coming-soon.png">
+        <img src="gallery images\logo-coming-soon.png" alt="gallery images\logo-coming-soon.png">
         </div>
     </div>
   </section>
@@ -203,7 +203,7 @@
 
         <div class="contact-container">
         <!-- Contact Form -->
-        <form action="https://formspree.io/f/your-form-id" method="POST" class="contact-form">
+        <form action="https://formspree.io/f/xpwyoqjn" method="POST" class="contact-form">
             <label for="name">Your Name</label>
             <input type="text" id="name" name="name" required>
 
@@ -352,5 +352,23 @@
     navMenu.classList.toggle('open');
     });
   </script>
+  <script>
+    const form = document.querySelector('.contact-form');
+    form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const response = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+    });
+    if (response.ok) {
+        alert('Thank you! Your message has been sent.');
+        form.reset();
+    } else {
+        alert('Oops! There was a problem sending your message.');
+    }
+    });
+    </script>
 </body>
 </html>
