@@ -307,39 +307,49 @@
 
     // Smooth scroll with temporary highlight freeze (now includes logo)
     navAnchors.forEach(link => {
-    link.addEventListener('click', e => {
-        const targetId = link.getAttribute('href');
-        if (!targetId || !targetId.startsWith('#')) return; // ignore non-anchor links
-        e.preventDefault();
+        link.addEventListener('click', e => {
+            const targetId = link.getAttribute('href');
+            if (!targetId || !targetId.startsWith('#')) return;
+            e.preventDefault();
 
-        const targetSection = targetId === '#home'
-        ? document.querySelector('#home')
-        : document.querySelector(targetId);
+            // NEW: blur the link to prevent lingering :focus/:hover on mobile
+            link.blur();
 
-        if (!targetSection) return;
+            // NEW: close mobile menu if open
+            const navMenu = document.querySelector('.nav-menu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            navMenu?.classList.remove('open');
+            menuToggle?.classList.remove('open');
 
-        isAutoScrolling = true;
+            const targetSection = targetId === '#home'
+            ? document.querySelector('#home')
+            : document.querySelector(targetId);
+            if (!targetSection) return;
 
-        const offsetTop = targetId === '#home'
-        ? 0
-        : targetSection.offsetTop - 80;
+            isAutoScrolling = true;
 
-        window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            const offsetTop = targetId === '#home' ? 0 : targetSection.offsetTop - 80;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
 
-        setTimeout(() => {
-        isAutoScrolling = false;
-        updateActiveLink(); // finalize highlight
-        }, 800);
+            setTimeout(() => {
+            isAutoScrolling = false;
+            updateActiveLink();
+            }, 800);
+
+            // instantly close menu after clicking a link (no animation)
+            navMenu.classList.remove('open');
+            menuToggle.classList.remove('open');
+        });
     });
-    });
+
 
     // --- Mobile menu toggle ---
-    const menuToggle = document.querySelector(".menu-toggle");
-    const navMenu = document.querySelector(".nav-menu");
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
 
-    menuToggle.addEventListener("click", () => {
-      navMenu.classList.toggle("open");
-      menuToggle.classList.toggle("open");
+    menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('open');
+    navMenu.classList.toggle('open');
     });
   </script>
 </body>

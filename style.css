@@ -74,16 +74,32 @@ body {
   color: var(--accent-color);
 }
 
-.nav-links a:not(.book-btn).active::after,
-.nav-links a:not(.book-btn):hover::after {
+/* Active underline: always (except Book Now) */
+.nav-links a:not(.book-btn).active::after {
   content: '';
   position: absolute;
-  width: 100%;
+  left: 0; right: 0; bottom: 0;
   height: 2px;
   background-color: var(--accent-color);
-  bottom: 0;
-  left: 0;
 }
+
+/* Hover styles ONLY on devices that truly support hover (desktops) */
+@media (hover: hover) and (pointer: fine) {
+  .nav-links a:not(.book-btn):hover::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+  }
+
+  .nav-links a:hover {
+    color: var(--accent-color);
+  }
+}
+
+/* Optional: avoid blue focus ring + underline quirks on mobile */
+.nav-links a:focus { outline: none; }
 
 /* Social icons */
 .social a { color: var(--text-color); display: inline-flex; }
@@ -105,17 +121,54 @@ body {
 .book-btn:active { transform: translateY(1px); }
 
 /* ===== Mobile Menu Toggle ===== */
-.menu-toggle {
-  display: none;           /* shown via media query */
-  background: none;
-  border: none;
-  color: var(--text-color);
-  font-size: 1.8rem;
-  line-height: 1;
-  cursor: pointer;
+/* Hidden by default */
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+  /* animation control */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.menu-toggle.open i[data-lucide="menu"] { transform: rotate(90deg); transition: transform .2s ease; }
+/* Visible when toggled open */
+.nav-menu.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Instant close on mobile (removes slide-up on closing) */
+@media (max-width: 900px) {
+  .nav-menu {
+    transition: none;
+  }
+  .nav-menu.open {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+}
+
+/* optional: prevent unwanted transitions on desktop */
+@media (min-width: 769px) {
+  .nav-menu {
+    position: static;
+    flex-direction: row;
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    transition: none;
+    box-shadow: none;
+  }
+}
 
 /* ===== Home Section ===== */
 .home-section {
@@ -585,28 +638,6 @@ section .content {
 /* ===== Responsive ===== */
 @media (max-width: 900px) {
   .menu-toggle { display: block; }
-
-  /* Convert nav to slide-down panel */
-  .nav-menu {
-    position: absolute;
-    top: 70px;
-    right: 0;
-    left: auto;
-    background-color: var(--bg-color);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1rem 1.5rem;
-    transform: translateY(-200%);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform .25s ease, opacity .25s ease;
-  }
-  .nav-menu.open {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-  }
 
   .nav-links {
     flex-direction: column;
