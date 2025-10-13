@@ -650,6 +650,64 @@ section .content {
   .home-section h1 { font-size: 2rem; }
   .home-section p { font-size: 1rem; }
   .logo { height: 45px; }
+
+  /* ===== Find Me — Mobile polish ===== */
+  /* Section spacing */
+  .find-section { padding: 4.5rem 1rem; }
+  .find-section h2 { margin-bottom: 0.75rem; }
+
+  /* Stack map and info; tighten gaps */
+  .find-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: 700px; /* keeps content nicely centered/narrow on small screens */
+  }
+
+  /* Make the map responsive and keep rounded corners */
+  .map-embed { border-radius: 12px; overflow: hidden; }
+  .map-embed iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;   /* responsive height */
+    min-height: 240px;      /* fallback for very small devices */
+    border: 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  .find-info {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    text-align: center; /* keep the alignment */
+  }
+
+  /* keep tidy spacing after removing the card */
+  .find-info p { margin: 0 0 0.75rem; }
+
+  /* Turn the directions link into a clear, tappable pill CTA */
+  .map-actions { margin-top: 0.25rem; }
+  .map-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 2px solid var(--accent-color);
+    background: transparent;
+    color: var(--accent-color);
+    font-weight: 700;
+    text-decoration: none;              /* override desktop underline for mobile */
+    min-height: 44px;                   /* comfortable tap target */
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .map-link:hover { background: var(--accent-color); color: var(--bg-color); }
+  .map-link i { line-height: 0; transform: translateY(1px); }
+
+  /* Softer tone for the long towns line */
+  .travel-note { font-size: 0.95rem; opacity: 0.9; }
 }
 
 @media (max-width: 768px) {
