@@ -1,10 +1,15 @@
-/* ===== Brand + Base ===== */
+/* =========================================================
+   Lucy’s Tailored Tails – Main Stylesheet
+   ========================================================= */
+
+/* ===== Root Variables ===== */
 :root {
   --bg-color: #FEF1CF;
   --text-color: #2B4544;
   --accent-color: #80A697;
 }
 
+/* ===== Base Reset ===== */
 * { box-sizing: border-box; }
 
 html, body {
@@ -20,7 +25,9 @@ body {
   line-height: 1.5;
 }
 
-/* ===== Navbar ===== */
+/* =========================================================
+   NAVBAR
+   ========================================================= */
 .navbar {
   position: fixed;
   top: 0;
@@ -36,14 +43,21 @@ body {
   padding: 0.8rem 2rem;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* logo left, nav right */
+  justify-content: space-between;
 }
 
-/* Logo pinned left */
+/* ===== Logo ===== */
 .logo-link { margin-right: auto; }
-.logo { height: 50px; display: block; cursor: pointer; }
 
-/* Right side nav */
+.logo {
+  height: 50px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+/* ===== Nav Menu ===== */
 .nav-menu {
   margin-left: auto;
   display: flex;
@@ -66,7 +80,7 @@ body {
   font-weight: 500;
   position: relative;
   padding-bottom: 4px;
-  transition: color .25s ease;
+  transition: color 0.25s ease;
 }
 
 .nav-links a:hover,
@@ -74,8 +88,10 @@ body {
   color: var(--accent-color);
 }
 
-/* Active underline: always (except Book Now) */
-.nav-links a:not(.book-btn).active::after {
+/* Underline active nav link */
+.nav-links a:not(.book-btn).active::after,
+/* Underline active nav link — exclude social + Book Now */
+.nav-links li:not(.social) > a:not(.book-btn).active::after {
   content: '';
   position: absolute;
   left: 0; right: 0; bottom: 0;
@@ -83,109 +99,52 @@ body {
   background-color: var(--accent-color);
 }
 
-/* Hover styles ONLY on devices that truly support hover (desktops) */
-@media (hover: hover) and (pointer: fine) {
-  .nav-links a:not(.book-btn):hover::after {
-    content: '';
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 2px;
-    background-color: var(--accent-color);
-  }
-
-  .nav-links a:hover {
-    color: var(--accent-color);
-  }
-}
-
-/* Optional: avoid blue focus ring + underline quirks on mobile */
+/* Remove blue focus outlines */
 .nav-links a:focus { outline: none; }
 
-/* Social icons */
-.social a { color: var(--text-color); display: inline-flex; }
+/* ===== Social Icons ===== */
+.social a {
+  color: var(--text-color);
+  display: inline-flex;
+  transition: color 0.25s ease;
+}
 .social a:hover { color: var(--accent-color); }
 
-/* Book button (bold + slightly left-shifted text via padding) */
+/* ===== Book Now Button ===== */
 .book-btn {
   background-color: var(--accent-color);
   color: var(--bg-color);
-  padding: 8px 22px 8px 18px; /* more on right, less on left */
+  padding: 8px 22px 8px 18px;
   border-radius: 20px;
   text-decoration: none;
-  font-weight: 700; /* bold */
+  font-weight: 700;
   display: inline-block;
-  transition: background .25s ease, transform .08s ease;
+  transition: background 0.25s ease, transform 0.08s ease;
+  border: none;                 /* remove default button border */
+  appearance: none;             /* reset native styles */
+  -webkit-appearance: none;     /* Safari/iOS */
+  cursor: pointer;              /* consistent cursor */
 }
 
 .book-btn:hover { background-color: #6b8b7e; }
 .book-btn:active { transform: translateY(1px); }
 
-/* Clean up hamburger button appearance */
+/* ===== Hamburger Button ===== */
 .menu-toggle {
+  display: none;
   background: none;
   border: none;
-  outline: none;
-  box-shadow: none;
   cursor: pointer;
-  display: none; /* shown only on mobile */
   padding: 0;
-}
-.menu-toggle:focus,
-.menu-toggle:active {
-  outline: none;
-  box-shadow: none;
+  color: var(--text-color);
 }
 
-/* ===== Mobile Menu Toggle ===== */
-/* Hidden by default */
-.nav-menu {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bg-color);
-  position: absolute;
-  top: 100%;
-  left: 0;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease; /* fade only */
-}
-
-/* Visible when toggled open */
-.nav-menu.open {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-/* Instant close on mobile (removes slide-up on closing) */
-@media (max-width: 900px) {
-  .nav-menu {
-    transition: none;
-  }
-  .nav-menu.open {
-    transition: opacity 0.2s ease, transform 0.2s ease;
-  }
-}
-
-/* optional: prevent unwanted transitions on desktop */
-@media (min-width: 769px) {
-  .nav-menu {
-    position: static;
-    flex-direction: row;
-    display: flex;
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
-    transition: none;
-    box-shadow: none;
-  }
-}
-
-/* ===== Home Section ===== */
+/* =========================================================
+   HOME SECTION
+   ========================================================= */
 .home-section {
   min-height: 100vh;
-  padding-top: 100px;         /* space under fixed navbar */
+  padding-top: 100px;
   padding-inline: 1rem;
   display: flex;
   flex-direction: column;
@@ -196,31 +155,45 @@ body {
 
 .home-logo {
   width: 80%;
-  max-width: 320px;           /* larger hero logo */
+  max-width: 320px;
+  height: auto;
+  display: block;
   margin-bottom: 25px;
+  object-fit: contain;
 }
 
 .home-section h1 {
   font-family: 'Pacifico', cursive;
-  font-size: 2.4rem;          /* bigger headline */
+  font-size: 2.4rem;
   margin: 0 0 15px 0;
   color: var(--text-color);
 }
 
 .home-section p {
-  font-size: 1.1rem;          /* bigger body */
-  margin: 0;
+  font-size: 1.1rem;
   line-height: 1.8;
+  margin: 0;
 }
 
-/* ===== Generic Section Layout ===== */
+.served-areas-note {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* =========================================================
+   SECTION BASE
+   ========================================================= */
 section {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   text-align: center;
   padding: 6rem 1rem;
+
+  /* Ensure anchored sections land below the fixed navbar */
+  scroll-margin-top: calc(var(--nav-offset, 80px) + 10px);
 }
 
 section .content {
@@ -228,17 +201,17 @@ section .content {
   width: 100%;
 }
 
-/* ===== Appointments Section ===== */
+/* =========================================================
+   APPOINTMENTS
+   ========================================================= */
 .appointments-section {
-  background-color: #fff9e6; /* lighter for contrast */
-  border-top: 2px solid rgba(0,0,0,0.05);
-  border-bottom: 2px solid rgba(0,0,0,0.05);
+  background-color: #fff9e6;
+  border-block: 2px solid rgba(0,0,0,0.05);
 }
 
 .appointments-section h2 {
   font-family: 'Pacifico', cursive;
   font-size: 2rem;
-  color: var(--text-color);
   margin-bottom: 1rem;
 }
 
@@ -248,7 +221,7 @@ section .content {
   margin-bottom: 2rem;
 }
 
-/* Unified large Book Now button styling */
+/* Large call-to-action button */
 .book-btn.large {
   background-color: var(--accent-color);
   color: var(--bg-color) !important;
@@ -256,8 +229,6 @@ section .content {
   border-radius: 30px;
   font-weight: 700;
   font-size: 1.05rem;
-  text-decoration: none;
-  display: inline-block;
   transition: background 0.3s ease, transform 0.08s ease;
 }
 
@@ -266,20 +237,15 @@ section .content {
   color: var(--bg-color) !important;
 }
 
-.book-btn.large:active {
-  transform: translateY(1px);
-}
+.book-btn.large:active { transform: translateY(1px); }
 
-/* ===== Prices Section ===== */
-.prices-section {
-  background-color: var(--bg-color);
-}
-
+/* =========================================================
+   PRICES
+   ========================================================= */
 .prices-section h2 {
   font-family: 'Pacifico', cursive;
   font-size: 2rem;
   margin-bottom: 1.5rem;
-  color: var(--text-color);
 }
 
 .price-image {
@@ -287,20 +253,20 @@ section .content {
   width: 100%;
   height: auto;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   margin-bottom: 1.5rem;
 }
 
 .prices-section p {
   font-size: 1.05rem;
   line-height: 1.8;
-  color: var(--text-color);
 }
 
-/* ===== Gallery Section ===== */
+/* =========================================================
+   GALLERY
+   ========================================================= */
 .gallery-section {
-  background-color: #fff9e6; /* soft contrast with background */
-  color: var(--text-color);
+  background-color: #fff9e6;
 }
 
 .gallery-section h2 {
@@ -324,26 +290,23 @@ section .content {
 
 .gallery-grid img {
   width: 100%;
-  height: auto;                /* let image define its own height */
-  object-fit: contain;         /* scale to fit inside container */
+  height: auto;
+  object-fit: contain;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background-color: #fff9e6;   /* soft background for empty space */
-  padding: 4px;                /* optional: tiny padding for aesthetic balance */
+  background-color: #fff9e6;
+  padding: 4px;
 }
 
 .gallery-grid img:hover {
   transform: scale(1.03);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
-/* ===== Services Section ===== */
-.services-section {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-}
-
+/* =========================================================
+   SERVICES
+   ========================================================= */
 .services-section h2 {
   font-family: 'Pacifico', cursive;
   font-size: 2rem;
@@ -352,7 +315,7 @@ section .content {
 
 .services-intro {
   font-size: 1.05rem;
-  margin: 0 auto 2rem auto;
+  margin: 0 auto 2rem;
   max-width: 720px;
   line-height: 1.8;
 }
@@ -361,13 +324,12 @@ section .content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.25rem;
-  width: 100%;
   max-width: 1000px;
-  margin: 0 auto 2rem auto;
+  margin: 0 auto 2rem;
 }
 
 .service-card {
-  background: #fff9e6; /* soft contrast in your palette */
+  background: #fff9e6;
   border: 1px solid rgba(0,0,0,0.05);
   border-radius: 14px;
   padding: 1.25rem;
@@ -382,14 +344,12 @@ section .content {
 }
 
 .service-card i {
-  display: inline-block;
-  font-size: 0;            /* icon only, no text */
   color: var(--accent-color);
   margin-bottom: 0.5rem;
 }
 
 .service-card h3 {
-  margin: 0 0 0.35rem 0;
+  margin: 0 0 0.35rem;
   font-size: 1.1rem;
 }
 
@@ -399,25 +359,52 @@ section .content {
   font-size: 0.98rem;
 }
 
-/* make the call-to-action a touch bigger here */
-.services-section .book-btn.large {
-  font-size: 1.05rem;
-  padding: 12px 30px 12px 24px;
-  border-radius: 28px;
+/* =========================================================
+   FIND ME
+   ========================================================= */
+.find-section { background: #fff9e6; color: var(--text-color); }
+.find-section h2 { font-family: 'Pacifico', cursive; font-size: 2rem; margin-bottom: 1rem; }
+
+.find-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr; /* map larger than text */
+  gap: 1.25rem;
+  align-items: start;
+  width: 100%;
+  max-width: 900px; /* matches your .content width */
+  margin: 0 auto;
+}
+
+.map-embed iframe {
+  width: 100%;
+  height: 300px;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.find-info p { margin: 0 0 .8rem; }
+
+/* Directions link — clear but on-brand */
+.map-actions { margin-top: 0.25rem; }
+.map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   font-weight: 700;
+  color: var(--accent-color);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
 }
+.map-link:hover { color: #6b8b7e; }
+.map-link i { display: inline-block; line-height: 0; }
 
-@media (max-width: 768px) {
-  .service-card { text-align: center; }
-}
+.travel-note { font-size: .95rem; opacity: .9; }
 
-
-
-/* ===== About Section ===== */
-.about-section {
-  background-color: #fff9e6;
-  color: var(--text-color);
-}
+/* =========================================================
+   ABOUT
+   ========================================================= */
 
 .about-section h2 {
   font-family: 'Pacifico', cursive;
@@ -430,14 +417,14 @@ section .content {
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  flex-wrap: wrap; /* stack on smaller screens */
+  flex-wrap: wrap;
 }
 
 .about-photo {
   width: 300px;
   height: auto;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   object-fit: cover;
 }
 
@@ -452,21 +439,11 @@ section .content {
   color: var(--accent-color);
 }
 
-@media (max-width: 768px) {
-  .about-text {
-    text-align: center;
-  }
-
-  .about-photo {
-    width: 80%;
-    max-width: 250px;
-  }
-}
-
-/* ===== Contact Section ===== */
+/* =========================================================
+   CONTACT
+   ========================================================= */
 .contact-section {
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: #fff9e6; 
 }
 
 .contact-section h2 {
@@ -490,7 +467,7 @@ section .content {
   margin: 0 auto;
 }
 
-/* Form styling */
+/* Contact Form */
 .contact-form {
   display: flex;
   flex-direction: column;
@@ -502,7 +479,6 @@ section .content {
 
 .contact-form label {
   font-weight: 600;
-  margin-bottom: 0.25rem;
 }
 
 .contact-form input,
@@ -511,9 +487,7 @@ section .content {
   padding: 10px 12px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
-  color: var(--text-color);
 }
 
 .contact-form input:focus,
@@ -522,7 +496,7 @@ section .content {
   outline: none;
 }
 
-/* Contact info section */
+/* Contact Info */
 .contact-info {
   max-width: 350px;
   text-align: left;
@@ -543,28 +517,11 @@ section .content {
   transition: color 0.3s ease;
 }
 
-.contact-info a:hover {
-  color: var(--accent-color);
-}
+.contact-info a:hover { color: var(--accent-color); }
 
-/* Social icons */
-.social-icons {
-  margin-top: 1rem;
-  display: flex;
-  gap: 1rem;
-}
-
-.social-icons a {
-  color: var(--text-color);
-  font-size: 1.5rem;
-  transition: color 0.3s ease;
-}
-
-.social-icons a:hover {
-  color: var(--accent-color);
-}
-
-/* ===== Footer ===== */
+/* =========================================================
+   FOOTER
+   ========================================================= */
 .site-footer {
   background-color: var(--bg-color);
   border-top: 1px solid rgba(0,0,0,0.1);
@@ -584,7 +541,6 @@ section .content {
 .footer-content p {
   margin: 0;
   font-size: 0.95rem;
-  color: var(--text-color);
 }
 
 .footer-socials {
@@ -594,13 +550,11 @@ section .content {
 
 .footer-socials a {
   color: var(--text-color);
-  transition: color 0.3s ease;
   font-size: 1.4rem;
+  transition: color 0.3s ease;
 }
 
-.footer-socials a:hover {
-  color: var(--accent-color);
-}
+.footer-socials a:hover { color: var(--accent-color); }
 
 /* Back to Top Button */
 .back-to-top {
@@ -633,40 +587,12 @@ section .content {
   background-color: #6b8b7e;
 }
 
-/* Responsive layout */
-@media (max-width: 768px) {
-  .contact-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .contact-form, .contact-info {
-    text-align: center;
-  }
-
-  .contact-form label {
-    text-align: left;
-  }
-}
-
-/* ===== Responsive ===== */
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
 @media (max-width: 900px) {
-  /* Show hamburger icon */
-  .menu-toggle {
-    display: block;
-    background: none;
-    border: none;
-    color: var(--text-color);
-    font-size: 1.8rem;
-    line-height: 1;
-    cursor: pointer;
-    padding: 0;
-    outline: none;
-    box-shadow: none;
-  }
+  .menu-toggle { display: block; font-size: 1.8rem; }
 
-  /* Match the look from commit 207aacdd (compact top-right panel) */
-  /* Convert nav to fade-in panel */
   .nav-menu {
     position: absolute;
     top: 70px;
@@ -687,7 +613,6 @@ section .content {
     pointer-events: auto;
   }
 
-  /* stack links vertically */
   .nav-links {
     flex-direction: column;
     align-items: stretch;
@@ -700,37 +625,55 @@ section .content {
     text-align: left;
   }
 
-  /* Book Now button */
-  .book-btn {
-    display: inline-block;
-    width: auto;
-    text-align: center;
-    margin-top: 0.3rem;
-    margin-bottom: 0.3rem;  /* smaller gap below */
-  }
-
-  /* Social icons — compact, inline, left-aligned */
+  /* Social icons — tighter layout inside the mobile dropdown */
   .social {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 0.4rem;            /* tighter gap between icons */
+    gap: 0.25rem;     /* was 0.4rem — closer spacing */
     justify-content: flex-start;
-    margin-top: 0;          /* remove any extra vertical space */
-    padding: 0;             /* ensure no internal spacing */
+    margin: 0;
+    padding: 0;
   }
 
-  /* Fix icon spacing inside the mobile dropdown */
   .social a {
-    display: inline-block;  /* remove flexbox sizing behavior */
-    width: auto;            /* shrink to icon width */
-    padding: 0;             /* no invisible padding */
-    margin: 0;              /* no inherited margin */
+    display: inline-flex;
+    width: auto;
+    padding: 0;       /* keep icons tight */
+    margin: 0;
+    line-height: 1;
+    text-decoration: none; /* no underline on mobile either */
   }
 
-  /* Tweak navbar padding and hero sizes for mobile */
   .navbar-container { padding: 0.8rem 1rem; }
   .home-logo { max-width: 260px; }
   .home-section h1 { font-size: 2rem; }
   .home-section p { font-size: 1rem; }
+  .logo { height: 45px; }
 }
+
+@media (max-width: 768px) {
+  .service-card, .about-text { text-align: center; }
+  .about-photo { width: 80%; max-width: 250px; }
+  .contact-container { flex-direction: column; align-items: center; }
+  .contact-form, .contact-info { text-align: center; }
+  .contact-form label { text-align: left; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* Underline on hover — exclude social + Book Now */
+  .nav-links li:not(.social) > a:not(.book-btn):hover::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+  }
+
+  .nav-links a:hover {
+    color: var(--accent-color);
+  }
+}
+
+/* Never draw underline for social links (safety override) */
+.nav-links .social a::after { content: none !important; }
