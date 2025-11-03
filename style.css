@@ -257,7 +257,17 @@ section .content {
   margin-bottom: 1.5rem;
 }
 
-.prices-section p {
+.discount-text {
+  font-size: 1.5rem;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.discount-text strong {
+  color: var(--accent-color);
+}
+
+.prices-text {
   font-size: 1.05rem;
   line-height: 1.8;
 }
