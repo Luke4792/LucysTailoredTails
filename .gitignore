@@ -5,3 +5,8 @@ npm-debug.log
 .DS_Store
 package-lock.json
 package.json
+
+# Private business files - never publish (GitHub Pages serves everything committed)
+*.xlsx
+*.xls
+*.csv
