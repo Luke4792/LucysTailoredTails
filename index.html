@@ -253,11 +253,11 @@
         <img src="lucy-logo.jpg" width="1024" height="1024" alt="Lucy's Tailored Tails logo" class="logo"/>
       </a>
 
-      <button class="menu-toggle" aria-label="Toggle navigation">
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
         <svg class="lucide lucide-menu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
       </button>
 
-      <nav class="nav-menu" role="navigation">
+      <nav class="nav-menu" id="site-nav" aria-label="Main">
         <ul class="nav-links">
           <li><a href="#appointments">Appointments</a></li>
           <li><a href="#prices">Prices</a></li>
@@ -655,8 +655,7 @@
           link.blur();
 
           // close mobile menu if open (affects navbar height)
-          navMenu?.classList.remove("open");
-          menuToggle?.classList.remove("open");
+          setMenuOpen(false);
 
           const id = href.slice(1);
           isAutoScrolling = true;
@@ -700,11 +699,24 @@
       });
 
       // Mobile menu toggle
+      function setMenuOpen(open) {
+        menuToggle?.classList.toggle("open", open);
+        navMenu?.classList.toggle("open", open);
+        menuToggle?.setAttribute("aria-expanded", String(open));
+      }
+
       menuToggle?.addEventListener("click", () => {
-        menuToggle.classList.toggle("open");
-        navMenu?.classList.toggle("open");
+        setMenuOpen(!navMenu?.classList.contains("open"));
         // navbar height may change; keep CSS var fresh
         setNavOffsetCssVar();
+      });
+
+      // Escape closes the mobile menu and returns focus to the button
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape" && navMenu?.classList.contains("open")) {
+          setMenuOpen(false);
+          menuToggle?.focus();
+        }
       });
 
       // Back-to-top button: show once scrolled a screen down

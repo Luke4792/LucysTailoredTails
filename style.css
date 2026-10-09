@@ -100,8 +100,14 @@ body {
   background-color: var(--accent-color);
 }
 
-/* Remove blue focus outlines */
-.nav-links a:focus { outline: none; }
+/* Visible focus ring for keyboard users (not shown on mouse/touch taps) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent-color);
+  outline-offset: 2px;
+}
 
 /* ===== Social Icons ===== */
 .social a {
@@ -507,7 +513,6 @@ section .content {
 .contact-form input:focus,
 .contact-form textarea:focus {
   border-color: var(--accent-color);
-  outline: none;
 }
 
 /* Contact Info */
@@ -618,13 +623,16 @@ section .content {
     align-items: flex-start;
     padding: 1rem 1.5rem;
     opacity: 0;
+    visibility: hidden; /* also removes closed-menu links from Tab order */
     pointer-events: none;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.25s ease, visibility 0s linear 0.25s;
   }
 
   .nav-menu.open {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
+    transition: opacity 0.25s ease;
   }
 
   .nav-links {
