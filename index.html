@@ -716,6 +716,16 @@
         setNavOffsetCssVar();
       });
 
+      // Back-to-top button: show once scrolled a screen down
+      const backToTop = document.querySelector(".back-to-top");
+      function updateBackToTop() {
+        backToTop?.classList.toggle("visible", window.scrollY > window.innerHeight);
+      }
+      window.addEventListener("scroll", updateBackToTop, { passive: true });
+      backToTop?.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
       // Contact form submission
       const form = document.querySelector(".contact-form");
       form?.addEventListener("submit", async e => {
