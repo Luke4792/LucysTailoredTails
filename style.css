@@ -260,13 +260,82 @@ section .content {
   margin-bottom: 1.5rem;
 }
 
-.price-image {
+/* Text price list, styled after the original price-list.png */
+.price-list {
   max-width: 800px;
-  width: 100%;
-  height: auto;
+  margin: 0 auto 1.5rem;
+  padding: 1.5rem 2rem 1.75rem;
+  background: #fff9e6;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  margin-bottom: 1.5rem;
+}
+
+.price-from {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.2rem;
+  margin: 0 0 1.25rem;
+}
+
+.price-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.75rem 2.5rem;
+}
+
+.price-group h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0 0 0.6rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.price-group table {
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.price-group th,
+.price-group td {
+  padding: 0.15rem 0.9rem;
+  text-align: left;
+  font-weight: 400;
+  vertical-align: top;
+}
+
+/* Divider between size and price, as on the printed list */
+.price-group td {
+  border-left: 2px solid var(--text-color);
+  white-space: nowrap;
+}
+
+.price-sub {
+  display: block;
+  font-size: 0.9em;
+}
+
+.price-offer {
+  font-weight: 600;
+  margin: 1.75rem 0;
+}
+
+.price-note {
+  font-size: 0.95rem;
+  font-style: italic;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin: 1.75rem 0 0;
+}
+
+@media (max-width: 600px) {
+  .price-list { padding: 1.25rem 0.75rem 1.5rem; }
+  .price-groups { gap: 1.5rem 0.5rem; }
+  .price-group h3 { font-size: 0.95rem; }
+  .price-groups--extras { grid-template-columns: 1fr; } /* wider rows: stack */
+  .price-group th,
+  .price-group td { padding: 0.1rem 0.3rem; font-size: 0.85rem; }
+  .price-groups--extras th,
+  .price-groups--extras td { padding: 0.1rem 0.6rem; font-size: 0.95rem; }
 }
 
 .discount-text {
