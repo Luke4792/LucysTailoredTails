@@ -190,11 +190,14 @@ section {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 6rem 1rem;
+  padding: 4rem 1rem;
 
   /* Ensure anchored sections land below the fixed navbar */
   scroll-margin-top: calc(var(--nav-offset, 80px) + 10px);
 }
+
+/* Drop the browser's default top margin so headings sit at the section edge */
+section h2 { margin-top: 0; }
 
 section .content {
   max-width: 900px;
@@ -662,8 +665,6 @@ section .content {
   .logo { height: 45px; }
 
   /* ===== Find Me — Mobile polish ===== */
-  /* Section spacing */
-  .find-section { padding: 4.5rem 1rem; }
   .find-section h2 { margin-bottom: 0.75rem; }
 
   /* Stack map and info; tighten gaps */
@@ -731,6 +732,8 @@ section .content {
 /* Phones: two masonry columns so the gallery is half as long to scroll.
    Columns (not grid rows) keep every photo uncropped with no row gaps. */
 @media (max-width: 600px) {
+  section { padding-block: 2.5rem; }
+
   .gallery-grid {
     display: block;
     column-count: 2;
