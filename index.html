@@ -11,15 +11,6 @@
     gtag('config', 'AW-17629717724');
   </script>
 
-  <!-- Event snippet for Page view conversion page -->
-  <script>
-    gtag('event', 'conversion', {
-        'send_to': 'AW-17629717724/76ePCNrP_8EbENzJwNZB',
-        'value': 1.0,
-        'currency': 'GBP'
-    });
-  </script>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -724,6 +715,18 @@
       window.addEventListener("scroll", updateBackToTop, { passive: true });
       backToTop?.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // Google Ads conversion for "Book Now" taps. Paste the conversion label from
+      // Google Ads (Goals → Conversions) here, e.g. "AW-17629717724/AbC123xyz".
+      // Left empty, no conversion is sent.
+      const BOOK_NOW_CONVERSION = "";
+      document.querySelectorAll('a[href*="book.itsallsavvy.com"]').forEach(link => {
+        link.addEventListener("click", () => {
+          if (BOOK_NOW_CONVERSION && typeof gtag === "function") {
+            gtag("event", "conversion", { send_to: BOOK_NOW_CONVERSION });
+          }
+        });
       });
 
       // Contact form submission
