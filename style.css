@@ -728,6 +728,21 @@ section .content {
   .contact-form label { text-align: left; }
 }
 
+/* Phones: two masonry columns so the gallery is half as long to scroll.
+   Columns (not grid rows) keep every photo uncropped with no row gaps. */
+@media (max-width: 600px) {
+  .gallery-grid {
+    display: block;
+    column-count: 2;
+    column-gap: 0.75rem;
+  }
+  .gallery-grid img {
+    display: block;
+    margin-bottom: 0.75rem;
+    break-inside: avoid;
+  }
+}
+
 @media (hover: hover) and (pointer: fine) {
   /* Underline on hover — exclude social + Book Now */
   .nav-links li:not(.social) > a:not(.book-btn):hover::after {
