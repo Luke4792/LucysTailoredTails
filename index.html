@@ -512,6 +512,9 @@
             <label for="message">Message</label>
             <textarea id="message" name="message" rows="5" required></textarea>
 
+            <!-- Spam trap: hidden from people; Formspree drops submissions that fill it in -->
+            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+
             <button type="submit" class="book-btn large">Send Message</button>
           </form>
 
