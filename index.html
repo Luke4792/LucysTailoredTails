@@ -38,10 +38,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://unpkg.com" />
-  <link rel="preload" as="image" href="lucy-logo.jpg" />
+  <!-- Christmas theme: adds class "xmas" to <html> until the end of 31 Dec 2026
+       (visitor's local time). Everything festive in style.css hangs off that class,
+       so after New Year the site is back to normal by itself.
+       Preview either way with ?xmas=1 or ?xmas=0 on the URL. -->
+  <script>
+    (function () {
+      var force = /[?&]xmas=([01])/.exec(location.search);
+      var on = force ? force[1] === "1" : new Date() < new Date(2027, 0, 1);
+      if (on) document.documentElement.classList.add("xmas");
+      var preload = document.createElement("link");
+      preload.rel = "preload";
+      preload.as = "image";
+      preload.href = on ? "christmas-logo.jpg" : "lucy-logo.jpg";
+      document.head.appendChild(preload);
+    })();
+  </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=2026-10-09" /><!-- bump ?v= whenever style.css changes, or browsers may keep the old CSS for 10 min -->
+  <link rel="stylesheet" href="style.css?v=2026-11-02" /><!-- bump ?v= whenever style.css changes, or browsers may keep the old CSS for 10 min -->
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
   <!-- Tracking (async for non-blocking) -->
@@ -101,7 +116,8 @@
       { "@type": "Offer", "name": "Bath, Brush & Blow Dry", "url": "https://lucystailoredtails.co.uk/#services" },
       { "@type": "Offer", "name": "Puppy Groom", "url": "https://lucystailoredtails.co.uk/#services" },
       { "@type": "Offer", "name": "Ultrasonic Teeth Cleaning", "url": "https://lucystailoredtails.co.uk/#services" },
-      { "@type": "Offer", "name": "Pampered Pup Spa Package", "url": "https://lucystailoredtails.co.uk/#services" }
+      { "@type": "Offer", "name": "Pampered Pup Spa Package", "url": "https://lucystailoredtails.co.uk/#services" },
+      { "@type": "Offer", "name": "The Merry Makeover (Christmas Spa)", "url": "https://lucystailoredtails.co.uk/#merry-makeover", "validThrough": "2026-12-31" }
     ]
   },
   "potentialAction": {
@@ -231,7 +247,9 @@
           "priceSpecification": { "@type": "PriceSpecification", "minPrice": "15.00", "priceCurrency": "GBP" },
           "itemOffered": { "@type": "Service", "name": "Hand scissor (from)", "provider": { "@id": "https://lucystailoredtails.co.uk/#business" } } },
         { "@type": "Offer", "price": "10.00", "priceCurrency": "GBP",
-          "itemOffered": { "@type": "Service", "name": "Pampered Pup Spa Package (add-on)", "description": "Add a spa package worth £25 for only £10.", "provider": { "@id": "https://lucystailoredtails.co.uk/#business" } } }
+          "itemOffered": { "@type": "Service", "name": "Pampered Pup Spa Package (add-on)", "description": "Add a spa package worth £25 for only £10.", "provider": { "@id": "https://lucystailoredtails.co.uk/#business" } } },
+        { "@type": "Offer", "price": "10.00", "priceCurrency": "GBP", "validThrough": "2026-12-31",
+          "itemOffered": { "@type": "Service", "name": "The Merry Makeover — Christmas Spa (add-on)", "description": "Festive shampoo and facial, paw and nose balm, standard teeth clean and fresh breath spray, handmade festive bow and a spritz of festive perfume. Add to any groom until 31 December.", "provider": { "@id": "https://lucystailoredtails.co.uk/#business" } } }
       ]
     }
   ]
@@ -278,7 +296,94 @@
   <main id="main-content">
     <!-- Home Section -->
     <section id="home" class="home-section" aria-labelledby="home-heading">
+      <!-- Christmas only: Santa's sleigh pulled by reindeer-dogs, flown around behind the
+           landing screen by the Christmas script, dropping a trail of gifts for dogs (canvas). -->
+      <div class="xmas-sky xmas-only" aria-hidden="true">
+        <canvas class="xmas-gifts"></canvas>
+        <svg class="xmas-sleigh" viewBox="0 0 290 105" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- One reindeer-dog, facing right. Legs are separate groups so CSS can gallop them. -->
+            <g id="xmas-dog">
+              <path d="M7 18Q-3 14-2 4" fill="none" stroke="#2B4544" stroke-width="7" stroke-linecap="round"/>
+              <path d="M7 18Q-3 14-2 4" fill="none" stroke="#E2A13F" stroke-width="3.6" stroke-linecap="round"/>
+              <path d="M51 4Q49-4 45-9M48-2L42-3M57 4Q59-4 63-9M60-2L66-4" fill="none" stroke="#2B4544" stroke-width="4.6" stroke-linecap="round"/>
+              <path d="M51 4Q49-4 45-9M48-2L42-3M57 4Q59-4 63-9M60-2L66-4" fill="none" stroke="#9C6B3F" stroke-width="2.2" stroke-linecap="round"/>
+              <g fill="#E2A13F" stroke="#2B4544" stroke-width="2.2">
+                <g class="xmas-legs xmas-legs--back">
+                  <rect x="8" y="24" width="7" height="17" rx="3.5" transform="rotate(55 11.5 26)"/>
+                  <rect x="16" y="24" width="7" height="17" rx="3.5" transform="rotate(40 19.5 26)"/>
+                </g>
+                <g class="xmas-legs xmas-legs--front">
+                  <rect x="38" y="24" width="7" height="17" rx="3.5" transform="rotate(-55 41.5 26)"/>
+                  <rect x="46" y="24" width="7" height="17" rx="3.5" transform="rotate(-40 49.5 26)"/>
+                </g>
+              </g>
+              <!-- body + head + snout: fat dark copy under a gold copy = one merged outline -->
+              <g fill="#2B4544" stroke="#2B4544" stroke-width="4.4">
+                <ellipse cx="28" cy="22" rx="22" ry="10"/><circle cx="54" cy="12" r="9.5"/><rect x="56" y="11" width="13" height="9" rx="4.5"/>
+              </g>
+              <g fill="#E2A13F">
+                <ellipse cx="28" cy="22" rx="22" ry="10"/><circle cx="54" cy="12" r="9.5"/><rect x="56" y="11" width="13" height="9" rx="4.5"/>
+              </g>
+              <ellipse cx="50" cy="14" rx="3.6" ry="7.5" transform="rotate(18 50 14)" fill="#B87A3A" stroke="#2B4544" stroke-width="1.8"/>
+              <path d="M24 12.5Q26 22 24 31.5M42 13Q46 22 42 31" fill="none" stroke="#C0392B" stroke-width="3"/>
+              <circle cx="45" cy="31" r="2.4" fill="#E2A93B" stroke="#2B4544" stroke-width="1"/>
+              <circle cx="57.5" cy="10" r="1.5" fill="#2B4544"/>
+              <circle cx="68.5" cy="14" r="2.4" fill="#2B4544"/>
+            </g>
+          </defs>
+
+          <!-- reins -->
+          <path d="M92 52Q125 64 156 52M174 52Q205 62 236 48" fill="none" stroke="#7A4A2A" stroke-width="1.6"/>
+
+          <!-- the two dogs; the lead dog gets a glowing red nose -->
+          <g transform="translate(132 30)"><use href="#xmas-dog"/></g>
+          <g transform="translate(212 26)">
+            <use href="#xmas-dog"/>
+            <circle class="xmas-lead-nose" cx="68.5" cy="14" r="3.2" fill="#E53935" stroke="#2B4544" stroke-width="1"/>
+          </g>
+
+          <!-- sleigh: sack of presents, Santa, then the sleigh body in front of him -->
+          <g>
+            <ellipse cx="24" cy="46" rx="17" ry="19" fill="#9C6B3F" stroke="#2B4544" stroke-width="2.2"/>
+            <rect x="12" y="24" width="13" height="12" fill="#3E7B4F" stroke="#2B4544" stroke-width="1.8"/>
+            <path d="M18.5 24V36" stroke="#E2A93B" stroke-width="2"/>
+            <rect x="26" y="28" width="10" height="10" fill="#E2A93B" stroke="#2B4544" stroke-width="1.8"/>
+            <path d="M31 28V38" stroke="#C0392B" stroke-width="2"/>
+
+            <ellipse cx="66" cy="50" rx="15" ry="16" fill="#C0392B" stroke="#2B4544" stroke-width="2.2"/>
+            <path d="M70 44Q82 50 90 52" fill="none" stroke="#2B4544" stroke-width="7.5" stroke-linecap="round"/>
+            <path d="M70 44Q82 50 90 52" fill="none" stroke="#C0392B" stroke-width="4.5" stroke-linecap="round"/>
+            <circle cx="91" cy="52" r="3.4" fill="#2F6B45" stroke="#2B4544" stroke-width="1.5"/>
+            <circle cx="68" cy="27" r="9" fill="#F5C9A8" stroke="#2B4544" stroke-width="2"/>
+            <path d="M59 28Q60 42 69 42Q78 41 77 28Q73 33 68 32Q63 33 59 28Z" fill="#fff" stroke="#2B4544" stroke-width="1.8"/>
+            <circle cx="71" cy="24" r="1.3" fill="#2B4544"/>
+            <circle cx="72" cy="28.5" r="1.9" fill="#E8957A"/>
+            <path d="M58 21L78 21Q74 8 64 7Q55 7 49 15Q57 12 58 21Z" fill="#C0392B" stroke="#2B4544" stroke-width="2" stroke-linejoin="round"/>
+            <rect x="57" y="18.5" width="22" height="5.5" rx="2.75" fill="#fff" stroke="#2B4544" stroke-width="1.6"/>
+            <circle cx="49" cy="15" r="3.4" fill="#fff" stroke="#2B4544" stroke-width="1.5"/>
+
+            <path d="M6 52Q2 88 30 88H90Q108 88 110 68L112 58Q102 62 94 60H44Q34 52 6 52Z" fill="#C0392B" stroke="#2B4544" stroke-width="2.4" stroke-linejoin="round"/>
+            <path d="M12 68Q18 80 34 80H100" fill="none" stroke="#E2A93B" stroke-width="3"/>
+            <path d="M28 88V98M86 88V98M6 98H100Q116 98 117 84Q117 76 110 76" fill="none" stroke="#2B4544" stroke-width="6.5" stroke-linecap="round"/>
+            <path d="M28 88V98M86 88V98M6 98H100Q116 98 117 84Q117 76 110 76" fill="none" stroke="#E2A93B" stroke-width="3.2" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+
       <img src="lucy-logo.jpg" width="640" height="640" alt="Lucy's Tailored Tails logo" class="home-logo"/>
+      <script>
+        // Christmas: swap both logos before first paint (runs inline so there's no flash of the old one)
+        if (document.documentElement.classList.contains("xmas")) {
+          document.querySelectorAll(".logo, .home-logo").forEach(function (img) {
+            img.src = "christmas-logo.jpg";
+            img.width = 640;
+            img.height = 624;
+          });
+          // see .xmas-logo-mask in style.css
+          if (location.protocol !== "file:") document.documentElement.classList.add("xmas-logo-mask");
+        }
+      </script>
       <h1 id="home-heading">Welcome to Lucy's Tailored Tails!</h1>
       <p>
         1-to-1 Dog grooming services<br />
@@ -288,6 +393,21 @@
       </p>
       <a href="https://book.itsallsavvy.com/?id=68e128c10bb67c755768f30d&bookingDefinitionId=68e128c5fed68aa9b68f5c6f"
          class="book-btn large hero-cta" target="_blank" aria-label="Book grooming appointment online">Book Now</a>
+
+      <!-- Christmas only (hidden unless <html> has class "xmas") -->
+      <aside class="xmas-banner xmas-only" aria-label="Christmas giveaway">
+        <p class="xmas-banner-title"><i data-lucide="gift" aria-hidden="true"></i> Christmas Giveaway</p>
+        <p>
+          Every dog with an appointment in December for a <strong>Bath, Brush &amp; Blow Dry or above</strong>
+          is entered into my Christmas giveaway! Details coming soon on
+          <a href="https://www.instagram.com/lucystailoredtails/" target="_blank">Instagram</a> &amp;
+          <a href="https://www.facebook.com/profile.php?id=61579134267276" target="_blank">Facebook</a>.
+        </p>
+        <p>
+          Plus, my festive spa <a href="#merry-makeover">The Merry Makeover</a> is here until 31&nbsp;December.
+          Add it to any groom for £10!
+        </p>
+      </aside>
     </section>
 
     <!-- Appointments -->
@@ -315,6 +435,11 @@
         <h2 id="prices-heading">Prices</h2>
         <p class="discount-text">
           <strong class="highlight">Ask about adding a spa package to make your pup's groom extra special!</strong>
+        </p>
+        <!-- Christmas only -->
+        <p class="xmas-prices-note xmas-only">
+          <i data-lucide="gift" aria-hidden="true"></i>
+          This Christmas, add my festive spa <a href="#merry-makeover">The Merry Makeover</a> to any groom for just £10, until 31&nbsp;December!
         </p>
         <!-- Keep in sync with the OfferCatalog JSON-LD in <head> -->
         <div class="price-list">
@@ -381,6 +506,7 @@
                 <tr><th scope="row">Flea bath</th><td>£10</td></tr>
                 <tr><th scope="row">Handstripping</th><td>From £20</td></tr>
                 <tr><th scope="row">Hand scissor</th><td>From £15</td></tr>
+                <tr class="xmas-only xmas-price-row"><th scope="row">The Merry Makeover <span class="price-sub">(Christmas spa add-on, until 31 Dec)</span></th><td>£10</td></tr>
               </table>
             </div>
           </div>
@@ -436,6 +562,21 @@
         <p class="services-intro">A calm, one-to-one grooming experience tailored to your dog. Below are a few of the services I offer.</p>
 
         <div class="service-grid">
+          <!-- Christmas only (hidden unless <html> has class "xmas"); keep in sync with the JSON-LD -->
+          <article class="service-card xmas-card xmas-only" id="merry-makeover">
+            <span class="xmas-tag">Christmas special · until 31 Dec</span>
+            <i data-lucide="gift" aria-hidden="true"></i>
+            <h3>The Merry Makeover</h3>
+            <p>My festive Christmas spa! Add it to any groom for just £10.<br><br>
+              This service includes:<br><br>
+              - A festive shampoo &amp; facial.<br><br>
+              - A nourishing paw &amp; nose balm.<br><br>
+              - A standard teeth clean &amp; fresh breath spray.<br><br>
+              - A handmade festive bow.<br><br>
+              - A spritz of festive perfume.<br><br>
+              The perfect way to get your pup Christmas ready!</p>
+          </article>
+
           <article class="service-card">
             <i data-lucide="scissors" aria-hidden="true"></i>
             <h3>Full Groom</h3>
@@ -842,6 +983,363 @@
       // Initial sync
       setNavOffsetCssVar();
       updateActive();
+    });
+  </script>
+
+  <!-- Christmas: twinkling lights along the navbar + snowfall over the whole page.
+       Does nothing unless the date check in <head> added class "xmas". -->
+  <script defer>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!document.documentElement.classList.contains("xmas")) return;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // ----- Lights: a wire that droops in swags, with bulbs hanging along each swag -----
+      const navbar = document.querySelector(".navbar");
+      if (navbar) {
+        const lights = document.createElement("div");
+        lights.className = "xmas-lights";
+        lights.setAttribute("aria-hidden", "true");
+        navbar.appendChild(lights);
+
+        const TOP = 4;   // wire height at the hooks (px)
+        const SAG = 12;  // how far each swag droops in the middle (px)
+
+        function buildLights() {
+          const width = lights.clientWidth;
+          const phone = width < 600;
+          const swags = Math.max(2, Math.round(width / (phone ? 130 : 170)));
+          const swagW = width / swags;
+          const perSwag = phone ? 4 : 5;
+
+          // Quadratic curve with its control point at the middle: x is linear in t, and
+          // y(t) = TOP + 4·SAG·t(1−t), so bulb positions and tilt can be worked out exactly.
+          let path = `M0 ${TOP}`;
+          for (let s = 0; s < swags; s++) {
+            path += ` Q${(s + 0.5) * swagW} ${TOP + 2 * SAG} ${(s + 1) * swagW} ${TOP}`;
+          }
+          let html = `<svg width="${width}" height="34" viewBox="0 0 ${width} 34"><path d="${path}" fill="none" stroke="#2B4544" stroke-width="1.6"/></svg>`;
+
+          for (let s = 0; s < swags; s++) {
+            for (let k = 0; k < perSwag; k++) {
+              const t = (k + 0.5) / perSwag;
+              const x = (s + t) * swagW;
+              const y = TOP + 4 * SAG * t * (1 - t);
+              const tilt = Math.atan((4 * SAG * (1 - 2 * t)) / swagW) * 180 / Math.PI; // hang square to the wire
+              const dur = (1.4 + Math.random() * 1.6).toFixed(2);
+              const delay = (-Math.random() * 3).toFixed(2);
+              html += `<span class="xmas-bulb" style="left:${x.toFixed(1)}px;top:${(y + 3).toFixed(1)}px;--rot:${tilt.toFixed(1)}deg;--dur:${dur}s;--delay:${delay}s"></span>`;
+            }
+          }
+          lights.innerHTML = html;
+        }
+
+        buildLights();
+        let lastWidth = lights.clientWidth;
+        window.addEventListener("resize", () => {
+          if (lights.clientWidth !== lastWidth) { // ignore Safari's height-only toolbar resizes
+            lastWidth = lights.clientWidth;
+            buildLights();
+          }
+        });
+
+        // navbar is taller now: refresh the anchor offset (the main script sets it before this runs)
+        document.documentElement.style.setProperty("--nav-offset", `${navbar.offsetHeight}px`);
+      }
+
+      // ----- Santa's sleigh: wanders around the landing screen, behind the content -----
+      const sky = document.querySelector(".xmas-sky");
+      if (sky && reduceMotion) sky.remove();
+      else if (sky) flySleigh(sky);
+
+      function flySleigh(sky) {
+        const hero = sky.parentElement;
+        const sleigh = sky.querySelector(".xmas-sleigh");
+        const canvas = sky.querySelector(".xmas-gifts");
+        const ctx = canvas.getContext("2d");
+
+        const banner = hero.querySelector(".xmas-banner");
+        let W = 0, H = 0, sw = 0, sh = 0, phone = false, top = 0, floor = 0;
+        function size() {
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          W = hero.clientWidth;
+          H = hero.clientHeight;
+          canvas.width = Math.round(W * dpr);
+          canvas.height = Math.round(H * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          sw = sleigh.clientWidth;
+          sh = sleigh.clientHeight;
+          phone = W < 600;
+          // Flight band: below the top of the landing screen and above the giveaway
+          // banner (the sleigh flies behind content, so it would vanish behind the banner)
+          top = H * 0.15;
+          // extra margin: the steering is gentle, so it can drift ~half a sleigh past `floor` before turning
+          floor = banner ? Math.min(H * 0.82, banner.offsetTop - sh * 1.1) : H * 0.82;
+          if (floor < top + sh) floor = top + sh; // tiny screens: keep some room to fly
+        }
+        size();
+
+        // The sleigh makes passes across the screen. Each pass starts fully off one side
+        // and ends fully off the other; between passes it waits off-screen, then comes back
+        // the other way (so it turns round where nobody can see it).
+        // `pitch` is the angle of travel above/below horizontal; the sleigh is always drawn
+        // pointing exactly along it, so climbing and diving look like flying, not sliding.
+        const MAX_PITCH = 0.26;   // radians (~15 degrees): gentle swoops
+        let dir = 1, x = 0, y = 0, pitch = 0, pitchRate = 0, targetRate = 0;
+        let nextWander = 0, waitUntil = 0, sinceGift = 0;
+        const gifts = [];
+
+        function startPass(now) {
+          x = dir > 0 ? -sw : W + sw;
+          y = top + Math.random() * (floor - top);
+          pitch = (Math.random() - 0.5) * 0.2;
+          pitchRate = 0;
+          nextWander = now;
+        }
+
+        function step(dt, now) {
+          if (now < waitUntil) return; // off-screen between passes
+
+          const speed = phone ? 75 : 140; // px per second along the flight path
+
+          // Wander: every couple of seconds choose a new gentle climb/dive rate
+          if (now > nextWander) {
+            targetRate = (Math.random() * 2 - 1) * 0.18;
+            nextWander = now + 2000 + Math.random() * 2500;
+          }
+          // Steer away from the top and bottom of the landing screen
+          if (y < top) targetRate = Math.abs(targetRate) + 0.12;
+          if (y > floor) targetRate = -Math.abs(targetRate) - 0.12;
+          pitchRate += (targetRate - pitchRate) * Math.min(1, dt * 0.8); // ease slowly into each new turn
+          pitch = Math.max(-MAX_PITCH, Math.min(MAX_PITCH, pitch + pitchRate * dt));
+
+          const vx = Math.cos(pitch) * speed * dir;
+          const vy = Math.sin(pitch) * speed;
+          x += vx * dt;
+          y += vy * dt;
+
+          // Facing right: rotate by the pitch. Facing left (mirrored), the same rotation
+          // would tip the nose the wrong way, so it is negated.
+          const angle = pitch * dir * 180 / Math.PI;
+          sleigh.style.transform =
+            `translate(${(x - sw / 2).toFixed(1)}px, ${(y - sh / 2).toFixed(1)}px) rotate(${angle.toFixed(2)}deg) scaleX(${dir})`;
+
+          // Drop a gift out of the back of the sleigh every ~0.3s
+          sinceGift += dt;
+          if (sinceGift > 0.3) {
+            sinceGift = 0;
+            const ux = vx / speed, uy = vy / speed; // unit vector along the flight path
+            const r = Math.random();
+            gifts.push({
+              kind: r < 0.5 ? "present" : r < 0.75 ? "ball" : "bone",
+              colour: Math.floor(Math.random() * 3),
+              x: x - ux * sw * 0.4,
+              y: y - uy * sw * 0.4 + sh * 0.05,
+              vx: vx * 0.15 + (Math.random() - 0.5) * 20,
+              vy: -10 + Math.random() * 20,
+              rot: (Math.random() - 0.5) * 0.6,
+              spin: (Math.random() - 0.5) * 2.5,
+              age: 0,
+              life: 2.6 + Math.random() * 1.2
+            });
+          }
+
+          // Pass finished once the whole sleigh is past the far edge
+          if ((dir > 0 && x > W + sw) || (dir < 0 && x < -sw)) {
+            dir = -dir;
+            waitUntil = now + 600 + Math.random() * 600; // brief pause off-screen
+            startPass(waitUntil);
+          }
+        }
+
+        // ----- Gifts for dogs, drawn on the canvas -----
+        // Each shape is stroked first, then filled, so the fill covers the inner half of
+        // the stroke and leaves a clean outline.
+        const BOXES = [["#C0392B", "#E2A93B"], ["#3E7B4F", "#C0392B"], ["#E2A93B", "#C0392B"]]; // [box, ribbon]
+        function outlined(fill, lineWidth) {
+          ctx.strokeStyle = "#2B4544";
+          ctx.lineWidth = lineWidth;
+          ctx.lineJoin = "round";
+          ctx.stroke();
+          ctx.fillStyle = fill;
+          ctx.fill();
+        }
+        function drawPresent(s, colour) {
+          const [box, ribbon] = BOXES[colour];
+          for (const side of [-1, 1]) { // bow loops
+            ctx.beginPath();
+            ctx.ellipse(side * s * 0.38, -s * 1.12, s * 0.42, s * 0.26, side * 0.5, 0, Math.PI * 2);
+            outlined(ribbon, 1.4);
+          }
+          ctx.beginPath();
+          ctx.rect(-s, -s * 0.85, s * 2, s * 1.85);
+          outlined(box, 1.6);
+          ctx.fillStyle = ribbon;
+          ctx.fillRect(-s * 0.17, -s * 0.85, s * 0.34, s * 1.85);
+          ctx.fillRect(-s, -s * 0.05, s * 2, s * 0.3);
+        }
+        function drawBall(s) {
+          ctx.beginPath();
+          ctx.arc(0, 0, s * 0.95, 0, Math.PI * 2);
+          outlined("#CFE04A", 1.6);
+          ctx.strokeStyle = "#fff";
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.arc(-s * 1.15, 0, s * 0.85, -0.75, 0.75);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(s * 1.15, 0, s * 0.85, Math.PI - 0.75, Math.PI + 0.75);
+          ctx.stroke();
+        }
+        function drawBone(s) {
+          const len = s * 0.95, t = s * 0.32;
+          ctx.beginPath();
+          ctx.rect(-len, -t, len * 2, t * 2);
+          for (const sx of [-1, 1]) for (const sy of [-1, 1]) {
+            ctx.moveTo(sx * len + t * 1.3, sy * t * 1.1);
+            ctx.arc(sx * len, sy * t * 1.1, t * 1.3, 0, Math.PI * 2);
+          }
+          outlined("#FFF8EC", 1.8);
+          // little red bow in the middle
+          ctx.beginPath();
+          ctx.moveTo(0, 0); ctx.lineTo(-s * 0.45, -s * 0.32); ctx.lineTo(-s * 0.45, s * 0.32); ctx.closePath();
+          ctx.moveTo(0, 0); ctx.lineTo(s * 0.45, -s * 0.32); ctx.lineTo(s * 0.45, s * 0.32); ctx.closePath();
+          outlined("#C0392B", 1.2);
+          ctx.beginPath();
+          ctx.arc(0, 0, s * 0.13, 0, Math.PI * 2);
+          ctx.fillStyle = "#C0392B";
+          ctx.fill();
+        }
+
+        function drawGifts(dt) {
+          ctx.clearRect(0, 0, W, H);
+          const s = phone ? 6 : 8; // half-size of a gift in px
+          for (let i = gifts.length - 1; i >= 0; i--) {
+            const g = gifts[i];
+            g.age += dt;
+            if (g.age > g.life) { gifts.splice(i, 1); continue; }
+            g.vy += 55 * dt; // gentle gravity
+            g.x += g.vx * dt;
+            g.y += g.vy * dt;
+            g.rot += g.spin * dt;
+            ctx.save();
+            ctx.globalAlpha = Math.min(1, (g.life - g.age) / (g.life * 0.45)); // fade out towards the end
+            ctx.translate(g.x, g.y);
+            ctx.rotate(g.rot);
+            if (g.kind === "present") drawPresent(s, g.colour);
+            else if (g.kind === "ball") drawBall(s);
+            else drawBone(s);
+            ctx.restore();
+          }
+        }
+
+        let raf = 0, last = 0;
+        function frame(now) {
+          const dt = Math.min((now - last) / 1000, 0.05);
+          last = now;
+          step(dt, now);
+          drawGifts(dt);
+          raf = requestAnimationFrame(frame);
+        }
+        function start() {
+          if (raf) return;
+          last = performance.now();
+          raf = requestAnimationFrame(frame);
+        }
+        function stop() {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+
+        startPass(performance.now());
+        if ("ResizeObserver" in window) new ResizeObserver(size).observe(hero);
+        else window.addEventListener("resize", size);
+
+        // Only fly while the landing screen is in view
+        if ("IntersectionObserver" in window) {
+          new IntersectionObserver(([entry]) => (entry.isIntersecting ? start() : stop())).observe(hero);
+        } else {
+          start();
+        }
+      }
+
+      // ----- Snow: one fixed canvas over the whole page; skipped for reduced-motion users -----
+      if (reduceMotion) return;
+
+      const canvas = document.createElement("canvas");
+      canvas.className = "xmas-snow";
+      canvas.setAttribute("aria-hidden", "true");
+      document.body.appendChild(canvas);
+      const ctx = canvas.getContext("2d");
+
+      let w = 0, h = 0, flakes = [], last = 0;
+
+      function makeFlake(anywhere) {
+        const r = 1.5 + Math.random() * 3;
+        return {
+          x: Math.random() * w,
+          y: anywhere ? Math.random() * h : -10,
+          r,
+          vy: 18 + r * 10,                  // px per second: bigger flakes fall faster
+          phase: Math.random() * Math.PI * 2,
+          star: Math.random() < 0.25        // a quarter are drawn as six-armed flakes
+        };
+      }
+
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = canvas.clientWidth;
+        h = canvas.clientHeight;
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const count = Math.min(90, Math.round((w * h) / 10000)); // ~26 on a phone, 90 on desktop
+        while (flakes.length < count) flakes.push(makeFlake(true));
+        flakes.length = count;
+      }
+
+      function drawFlake(f) {
+        if (f.star) {
+          const len = f.r * 2.4;
+          ctx.strokeStyle = "rgba(127,166,166,0.85)";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          for (let a = 0; a < 3; a++) {
+            const ang = f.phase + (a * Math.PI) / 3;
+            const dx = Math.cos(ang) * len, dy = Math.sin(ang) * len;
+            ctx.moveTo(f.x - dx, f.y - dy);
+            ctx.lineTo(f.x + dx, f.y + dy);
+          }
+          ctx.stroke();
+        } else {
+          // white dot with a faint teal rim so it shows up on the cream background
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+          ctx.fillStyle = "#fff";
+          ctx.fill();
+          ctx.strokeStyle = "rgba(43,69,68,0.22)";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+
+      function frame(now) {
+        const dt = Math.min((now - last) / 1000, 0.05); // cap so a background tab doesn't teleport flakes
+        last = now;
+        ctx.clearRect(0, 0, w, h);
+        for (const f of flakes) {
+          f.phase += dt * 0.8;
+          f.y += f.vy * dt;
+          f.x += Math.sin(f.phase) * 12 * dt; // gentle side-to-side drift
+          if (f.y > h + 10) Object.assign(f, makeFlake(false));
+          drawFlake(f);
+        }
+        requestAnimationFrame(frame); // browsers pause this in background tabs
+      }
+
+      resize();
+      window.addEventListener("resize", resize);
+      last = performance.now();
+      requestAnimationFrame(frame);
     });
   </script>
 </body>
