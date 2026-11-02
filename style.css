@@ -581,6 +581,14 @@ section .content {
   font-size: 1rem;
 }
 
+/* Small helper text under a field; the negative margin tucks it up to its input
+   (the form's 1rem gap would otherwise float it halfway to the next label) */
+.contact-form .form-hint {
+  margin: -0.6rem 0 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
 .contact-form input:focus,
 .contact-form textarea:focus {
   border-color: var(--accent-color);
@@ -806,7 +814,7 @@ section .content {
   .about-photo { width: 80%; max-width: 250px; }
   .contact-container { flex-direction: column; align-items: center; }
   .contact-form, .contact-info { text-align: center; }
-  .contact-form label { text-align: left; }
+  .contact-form label, .contact-form .form-hint { text-align: left; }
 }
 
 /* Phones: two masonry columns so the gallery is half as long to scroll.

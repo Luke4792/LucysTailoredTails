@@ -56,7 +56,7 @@
   </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=2026-11-02b" /><!-- bump ?v= whenever style.css changes, or browsers may keep the old CSS for 10 min -->
+  <link rel="stylesheet" href="style.css?v=2026-11-02c" /><!-- bump ?v= whenever style.css changes, or browsers may keep the old CSS for 10 min -->
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
   <!-- Tracking (async for non-blocking) -->
@@ -718,7 +718,14 @@
             <input type="text" id="name" name="name" required>
 
             <label for="email">Your Email</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-hint">
+            <p id="email-hint" class="form-hint">My replies sometimes land in junk or spam, so please check there if you haven't heard back.</p>
+
+            <label for="phone">Your Phone Number</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required
+                   pattern="[0-9 +()\-]{10,}" title="Please enter a phone number, e.g. 07123 456789"
+                   aria-describedby="phone-hint">
+            <p id="phone-hint" class="form-hint">So I can call or text you if my email doesn't reach you.</p>
 
             <label for="message">Message</label>
             <textarea id="message" name="message" rows="5" required></textarea>
@@ -974,7 +981,7 @@
         submitBtn.textContent = label;
         if (sent) {
           form.reset();
-          alert("Thank you! Your message has been sent.");
+          alert("Thank you! Your message has been sent. I'll reply by email or phone - if you don't see my email, please check your junk/spam folder.");
         } else {
           alert("Sorry, your message couldn't be sent. Please try again, or call or text me on 07356 050727.");
         }
