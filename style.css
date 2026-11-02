@@ -895,7 +895,12 @@ html:not(.xmas) .xmas-only { display: none !important; }
    The script draws the drooping wire (an SVG) and positions each bulb along it.
    The strip is part of the navbar, so it never covers page content; the existing
    --nav-offset code accounts for the taller navbar. */
-.xmas .navbar { box-shadow: none; }
+/* No shadow, and the strip behind the bulbs fades out instead of ending in a hard edge,
+   so it blends into whichever section colour (cream or white) is scrolling underneath */
+.xmas .navbar {
+  box-shadow: none;
+  background: linear-gradient(to bottom, var(--bg-color) calc(100% - 24px), rgba(254, 241, 207, 0) 100%);
+}
 .xmas-lights {
   position: relative;
   height: 34px;
