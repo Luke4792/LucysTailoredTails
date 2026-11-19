@@ -877,6 +877,8 @@ section .content {
 
 /* Festive content (banner, Merry Makeover card, price notes) is hidden out of season */
 html:not(.xmas) .xmas-only { display: none !important; }
+/* The "fully booked" notice comes down earlier, after 25 Dec (see the head script) */
+html:not(.xmas-booked) .xmas-banner--notice { display: none !important; }
 
 /* ===== Background sprites (christmas-sprites.svg) on every section but the landing screen ===== */
 .xmas main section:not(.home-section) {
@@ -1085,6 +1087,34 @@ html:not(.xmas) .xmas-only { display: none !important; }
   margin-bottom: 0.35rem;
 }
 .xmas-banner a { color: var(--xmas-red); font-weight: 600; }
+/* "Fully booked" notice: snow-capped green frame so it doesn't read as another candy-cane promo */
+.xmas-banner--notice {
+  position: relative;
+  margin-top: 2.25rem;     /* room for the snow drift above */
+  border: 3px solid var(--xmas-green);
+  background: #f3f9f4;
+}
+.xmas-banner--notice::before {   /* snow drift along the top edge, like the Book Now buttons */
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: -8px;
+  height: 18px;
+  background: var(--xmas-snowcap) center / 100% 100% no-repeat;
+  filter: drop-shadow(0 1px 0 rgba(43, 69, 68, 0.25));
+  pointer-events: none;
+}
+.home-section .xmas-banner--notice .xmas-banner-title,
+.xmas-banner--notice a { color: var(--xmas-green); }
+.xmas-banner--notice .xmas-banner-title::before,
+.xmas-banner--notice .xmas-banner-title::after {   /* snowflake either side of the title */
+  content: "";
+  width: 0.8em;
+  height: 0.8em;
+  flex: none;
+  background: var(--xmas-flake) center / contain no-repeat;
+}
 .xmas-banner strong { color: var(--accent-color); }
 
 /* ===== The Merry Makeover service card ===== */

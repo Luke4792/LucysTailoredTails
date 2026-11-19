@@ -41,12 +41,15 @@
   <!-- Christmas theme: adds class "xmas" to <html> until the end of 31 Dec 2026
        (visitor's local time). Everything festive in style.css hangs off that class,
        so after New Year the site is back to normal by itself.
-       Preview either way with ?xmas=1 or ?xmas=0 on the URL. -->
+       Preview either way with ?xmas=1 or ?xmas=0 on the URL.
+       The "fully booked" notice has its own earlier cut-off (class "xmas-booked"). -->
   <script>
     (function () {
       var force = /[?&]xmas=([01])/.exec(location.search);
       var on = force ? force[1] === "1" : new Date() < new Date(2027, 0, 1);
       if (on) document.documentElement.classList.add("xmas");
+      // "Fully booked for Christmas" notice: shown until the end of 25 Dec, then hidden
+      if (on && new Date() < new Date(2026, 11, 26)) document.documentElement.classList.add("xmas-booked");
       var preload = document.createElement("link");
       preload.rel = "preload";
       preload.as = "image";
@@ -56,7 +59,7 @@
   </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=2026-11-02c" /><!-- bump ?v= whenever style.css changes, or browsers may keep the old CSS for 10 min -->
+  <link rel="stylesheet" href="style.css?v=2026-11-19c" /><!-- bump ?v= whenever style.css changes, or browsers may keep the old CSS for 10 min -->
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
   <!-- Tracking (async for non-blocking) -->
@@ -395,6 +398,21 @@
          class="book-btn large hero-cta" target="_blank" aria-label="Book grooming appointment online">Book Now</a>
 
       <!-- Christmas only (hidden unless <html> has class "xmas") -->
+      <aside class="xmas-banner xmas-banner--notice xmas-only" aria-label="Fully booked until after Christmas">
+        <p class="xmas-banner-title">Fully Booked for Christmas</p>
+        <p>
+          There are <strong>no appointments left until after Christmas</strong>.
+          A huge thank you to all my lovely customers and their pups for your support this year!
+        </p>
+        <p>
+          Want to be added to the cancellations list? Text me on
+          <a href="sms:+447356050727">07356&nbsp;050727</a>. I can't guarantee a space, but I'll be in touch if one comes up.
+        </p>
+        <p>
+          You can still book in for after Christmas using Book Now.
+        </p>
+      </aside>
+
       <aside class="xmas-banner xmas-only" aria-label="Christmas giveaway">
         <p class="xmas-banner-title"><i data-lucide="gift" aria-hidden="true"></i> Christmas Giveaway</p>
         <p>
